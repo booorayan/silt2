@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os.path
 from pathlib import Path
+import environ
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -18,6 +20,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
+
+# initialize env
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-&_k%h1-cu%oo=mujk%k68e-g7+4%(c62@yq!ap^@4n^m7ix4)7'
@@ -83,6 +90,21 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# DATABASES = {
+#     "default": {
+#         "ENGINE": 'django.db.backends.postgresql_psycopg2',
+#         "NAME": "keycloak",
+#         "USER": "keycloak",
+#         "PASSWORD": "password",
+#         "HOST": "127.0.0.1",
+#         "PORT": "5432",
+#         "CONN_MAX_AGE": 60 * 5,
+#     }
+#     # "development": {
+#     #     "ENGINE": "django.db.backends.sqlite3",
+#     #     "NAME": BASE_DIR / "db.sqlite3",
+#     # },
+# }
 
 
 # Password validation
@@ -144,15 +166,27 @@ REST_FRAMEWORK = {
 }
 
 
-OIDC_RP_SIGN_ALGO = 'RS256'
+OIDC_RP_SIGN_ALGO = env('OIDC_RP_SIGN_ALGO')
 # OIDC_RP_IDP_SIGN_KEY = "<OP signing key in PEM or DER format>"
-OIDC_OP_JWKS_ENDPOINT = "http://localhost:8080/auth/realms/test/protocol/openid-connect/certs"
-OIDC_RP_CLIENT_ID = 'test'
-OIDC_RP_CLIENT_SECRET = 'HTidmI7kgNfrSmDJesbiaqa67S9HhMDp'
-OIDC_OP_AUTHORIZATION_ENDPOINT = "http://localhost:8080/auth/realms/test/protocol/openid-connect/auth"
-OIDC_OP_TOKEN_ENDPOINT = "http://localhost:8080/auth/realms/test/protocol/openid-connect/token"
-OIDC_OP_USER_ENDPOINT = "http://localhost:8080/auth/realms/test/protocol/openid-connect/userinfo"
+OIDC_OP_JWKS_ENDPOINT = env('OIDC_OP_JWKS_ENDPOINT')
+OIDC_RP_CLIENT_ID = env('OIDC_RP_CLIENT_ID')
+OIDC_RP_CLIENT_SECRET = env('OIDC_RP_CLIENT_SECRET')
+OIDC_OP_AUTHORIZATION_ENDPOINT = env('OIDC_OP_AUTHORIZATION_ENDPOINT')
+OIDC_OP_TOKEN_ENDPOINT = env('OIDC_OP_TOKEN_ENDPOINT')
+OIDC_OP_USER_ENDPOINT = env('OIDC_OP_USER_ENDPOINT')
+
+# LOGIN_URL = reverse_lazy('oidc_authentication_callback')
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "<URL path to redirect to after logout>"
+
+# LOGGING = {
+#     'version': 1,
+#     'loggers': {
+#         'mozilla_django_oidc': {
+#             'handlers': ['console'],
+#             'level': 'DEBUG'
+#         },
+#     },
+# }
 

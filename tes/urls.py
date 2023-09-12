@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from mozilla_django_oidc.views import OIDCAuthenticationRequestView, OIDCAuthenticationCallbackView, OIDCLogoutView
+
 
 # from api.views import CustomerViewSet, OrderViewSet
 # from rest_framework.routers import DefaultRouter
