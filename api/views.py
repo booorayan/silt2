@@ -9,7 +9,7 @@ from .serializers import CustomerSerializer, OrderSerializer
 
 
 # Create your views here.
-class CustomerListCreateView(LoginRequiredMixin, generics.ListCreateAPIView):
+class CustomerListCreateView(generics.ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     authentication_classes = (SessionAuthentication, OIDCAuthentication)
