@@ -13,6 +13,7 @@ import os.path
 from pathlib import Path
 import environ
 from django.urls import reverse_lazy
+import africastalking
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,7 +33,7 @@ SECRET_KEY = 'django-insecure-&_k%h1-cu%oo=mujk%k68e-g7+4%(c62@yq!ap^@4n^m7ix4)7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'api',
     'phonenumber_field',
 ]
@@ -162,7 +164,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'mozilla_django_oidc.contrib.drf.OIDCAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        # other authentication classes, if needed
+        'rest_framework.authentication.TokenAuthentication',
     ],
 }
 
@@ -175,6 +177,7 @@ OIDC_RP_CLIENT_SECRET = env('OIDC_RP_CLIENT_SECRET')
 OIDC_OP_AUTHORIZATION_ENDPOINT = env('OIDC_OP_AUTHORIZATION_ENDPOINT')
 OIDC_OP_TOKEN_ENDPOINT = env('OIDC_OP_TOKEN_ENDPOINT')
 OIDC_OP_USER_ENDPOINT = env('OIDC_OP_USER_ENDPOINT')
+OIDC_CALLBACK_PUBLIC_URI = env('OIDC_CALLBACK_PUBLIC_URI')
 
 # LOGIN_URL = reverse_lazy('oidc_authentication_callback')
 
@@ -191,3 +194,13 @@ LOGOUT_REDIRECT_URL = "<URL path to redirect to after logout>"
 #     },
 # }
 
+
+# africastalking settings
+AFRICASTALKING_USERNAME = 'sandbox'
+AFRICASTALKING_API_KEY = env('AFRICASTALKING_API_KEY')
+
+
+africastalking.initialize(AFRICASTALKING_USERNAME, AFRICASTALKING_API_KEY)
+
+# Set your sender ID (the alphanumeric string that appears as the sender of the SMS)
+AFRICASTALKING_SENDER_ID = 'booora'

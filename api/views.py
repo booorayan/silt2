@@ -16,7 +16,7 @@ class CustomerListCreateView(generics.ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     authentication_classes = (SessionAuthentication, OIDCAuthentication)
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    # permission_classes = [permissions.IsAuthenticated]
 
     # def perform_create(self, serializer):
     #     serializer.save(owner=self.request.user)
@@ -43,7 +43,7 @@ class OrderListCreateView(generics.ListCreateAPIView):
         order_item = order.item
 
         # send SMS alert to the customer
-        send_sms_alert(customer_name, order_item, recipient_phone)
+        send_sms_alert(customer_name, order_item, str(recipient_phone))
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
