@@ -181,7 +181,7 @@ OIDC_CALLBACK_PUBLIC_URI = env('OIDC_CALLBACK_PUBLIC_URI')
 
 # LOGIN_URL = reverse_lazy('oidc_authentication_callback')
 
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/api/customers"
 LOGOUT_REDIRECT_URL = "<URL path to redirect to after logout>"
 
 # LOGGING = {

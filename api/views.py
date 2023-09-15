@@ -16,7 +16,7 @@ class CustomerListCreateView(generics.ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     authentication_classes = (SessionAuthentication, OIDCAuthentication)
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     # def perform_create(self, serializer):
     #     serializer.save(owner=self.request.user)
