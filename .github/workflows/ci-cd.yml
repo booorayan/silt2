@@ -25,7 +25,7 @@ jobs:
         uses: dotenv-actions/setup-dotenv@v2
         with:
           dotenv_path: .env
-        run: echo "Host -> $OIDC_RP_SIGN_ALGO"
+#        run: echo "Host -> $OIDC_RP_SIGN_ALGO"
 
       - name: Run tests
         run: python manage.py test
