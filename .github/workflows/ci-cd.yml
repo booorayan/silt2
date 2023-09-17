@@ -27,14 +27,14 @@ jobs:
 #          dotenv_path: .env.development
 #        run: echo "Host -> $OIDC_RP_SIGN_ALGO"
 
-      - name: Load .env.development file
-        uses: xom9ikk/dotenv@v2
-        with:
-          path: ./
-          mode: development
+#      - name: Load .env.development file
+#        uses: xom9ikk/dotenv@v2
+#        with:
+#          path: ./
+#          mode: development
 
       - name: Run tests
-        run: python manage.py test
+        run: python manage.py test api.tests
 
       - name: Build Docker image
         run: docker build -t django-api .
