@@ -24,13 +24,13 @@ jobs:
 #      - name: Load environment variables
 #        uses: dotenv-actions/setup-dotenv@v2
 #        with:
-#          dotenv_path: .env
+#          dotenv_path: .env.development
 #        run: echo "Host -> $OIDC_RP_SIGN_ALGO"
 
-      - name: Load .env file
+      - name: Load .env.development file
         uses: xom9ikk/dotenv@v2
         with:
-          path: /home/bo/projects/pasono/dev/silt2/env
+          path: /home/bo/projects/pasono/dev/silt2/
           mode: development
           load-mode: strict
 
