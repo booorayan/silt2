@@ -157,7 +157,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Add 'mozilla_django_oidc' authentication backend
 AUTHENTICATION_BACKENDS = (
     'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
-    # ...
 )
 
 REST_FRAMEWORK = {
@@ -170,7 +169,6 @@ REST_FRAMEWORK = {
 
 
 OIDC_RP_SIGN_ALGO = env('OIDC_RP_SIGN_ALGO')
-# OIDC_RP_IDP_SIGN_KEY = "<OP signing key in PEM or DER format>"
 OIDC_OP_JWKS_ENDPOINT = env('OIDC_OP_JWKS_ENDPOINT')
 OIDC_RP_CLIENT_ID = env('OIDC_RP_CLIENT_ID')
 OIDC_RP_CLIENT_SECRET = env('OIDC_RP_CLIENT_SECRET')

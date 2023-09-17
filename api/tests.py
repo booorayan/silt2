@@ -15,11 +15,11 @@ from .utils import send_sms_alert
 # Create your tests here.
 class CustomerTestCase(TestCase):
     def setUp(self):
-        # self.client = APIClient()
-
-        self.user = User.objects.create_user(username='testuser', password='testpassword')
         self.client = APIClient()
-        self.client.login(username='testuser', password='testpassword')
+
+        # self.user = User.objects.create_user(username='testuser', password='testpassword')
+        # self.client = APIClient()
+        # self.client.login(username='testuser', password='testpassword')
 
     def test_create_customer(self):
         url = reverse('customers')
@@ -34,10 +34,11 @@ class CustomerTestCase(TestCase):
         self.assertEqual(Customer.objects.get().email, 'booora@gmail.com')
 
 
-class OrderAPITestCase(TestCase):
+class OrderSMSTestCase(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.customer = Customer.objects.create(name='Booora', email='booora@gmail.com', code='CDW1212')
+        self.customer = Customer.objects.create(name='Booora', email='booora@gmail.com', code='CDW2121',
+                                                phone_number='+254720770571')
 
     def test_create_order(self):
         url = reverse('orders')
@@ -49,13 +50,6 @@ class OrderAPITestCase(TestCase):
         self.assertEqual(Order.objects.get().customer, self.customer)
         self.assertEqual(Order.objects.get().item, 'test item')
         self.assertEqual(Order.objects.get().amount, 2000.00)
-
-
-class SMSTestCase(TestCase):
-    def setUp(self):
-        self.client = APIClient()
-        self.customer = Customer.objects.create(name='Booora', email='booora@gmail.com', code='CDW2121',
-                                                phone_number='+254720770571')
 
     @patch('api.utils.send_sms_alert')
     def test_send_sm_alert(self, mock_send_sms_alert):
