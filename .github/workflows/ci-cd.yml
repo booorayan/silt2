@@ -30,9 +30,8 @@ jobs:
       - name: Load .env.development file
         uses: xom9ikk/dotenv@v2
         with:
-          path: /home/bo/projects/pasono/dev/silt2/
+          path: ./
           mode: development
-          load-mode: strict
 
       - name: Run tests
         run: python manage.py test
