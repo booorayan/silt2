@@ -25,31 +25,31 @@ jobs:
         uses: dotenv-actions/setup-dotenv@v2
         with:
           dotenv_path: .env
-        run: echo "Host -> $API_KEY"
+        run: echo "Host -> $OIDC_RP_SIGN_ALGO"
 
       - name: Run tests
         run: python manage.py test
 
       - name: Build Docker image
         run: docker build -t django-api .
+#
+#  test:
+#    runs-on: ubuntu-latest
 
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      - name: Run tests
-        run: python manage.py test
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v3
+#
+#      - name: Set up Python
+#        uses: actions/setup-python@v4
+#        with:
+#          python-version: '3.10'
+#
+#      - name: Install dependencies
+#        run: pip install -r requirements.txt
+#
+#      - name: Run tests
+#        run: python manage.py test
 
 #  deploy:
 #    runs-on: ubuntu-latest
