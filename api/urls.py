@@ -9,4 +9,5 @@ urlpatterns = [
     path('orders/', OrderListCreateView.as_view(), name='orders'),
     path('orders/<int:pk>/', OrderDetailView.as_view(), name='order-detail'),
     path('api-token-auth/', obtain_auth_token, name='api-token'),
+    path('login/', LoginView),
 ]

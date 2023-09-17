@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import permissions
 from rest_framework import status
@@ -16,7 +17,7 @@ class CustomerListCreateView(generics.ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     authentication_classes = (SessionAuthentication, OIDCAuthentication)
-    permission_classes = [permissions.IsAuthenticated]
+    # permission_classes = [permissions.IsAuthenticated]
 
     # def perform_create(self, serializer):
     #     serializer.save(owner=self.request.user)
@@ -53,3 +54,7 @@ class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OrderSerializer
     authentication_classes = (SessionAuthentication, OIDCAuthentication)
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, permissions.IsAdminUser]
+
+
+def LoginView(request):
+    return render(request, 'api/login.html')

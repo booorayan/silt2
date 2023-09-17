@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
@@ -14,11 +15,17 @@ from .utils import send_sms_alert
 # Create your tests here.
 class CustomerTestCase(TestCase):
     def setUp(self):
+        # self.client = APIClient()
+
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
         self.client = APIClient()
+        self.client.login(username='testuser', password='testpassword')
 
     def test_create_customer(self):
         url = reverse('customers')
         data = {'name': 'Booora', 'email': 'booora@gmail.com', 'code': 'CQ111', 'phone_number': '+254720770571'}
+        # self.client.post(reverse('oidc_authentication_init'))
+        # self.client.login(username='testuser', password='testpassword')
         response = self.client.post(url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
