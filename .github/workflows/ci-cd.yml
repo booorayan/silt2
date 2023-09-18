@@ -89,18 +89,37 @@ jobs:
     needs:
       - build
 
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      OIDC_RP_SIGN_ALGO: ${{ secrets.OIDC_RP_SIGN_ALGO }}
+      OIDC_OP_JWKS_ENDPOINT: ${{ secrets.OIDC_OP_JWKS_ENDPOINT }}
+      OIDC_RP_CLIENT_ID: ${{ secrets.OIDC_RP_CLIENT_ID }}
+      OIDC_RP_CLIENT_SECRET: ${{ secrets.OIDC_RP_CLIENT_SECRET }}
+      OIDC_OP_AUTHORIZATION_ENDPOINT: ${{ secrets.OIDC_OP_AUTHORIZATION_ENDPOINT }}
+      OIDC_OP_TOKEN_ENDPOINT: ${{ secrets.OIDC_OP_TOKEN_ENDPOINT }}
+      OIDC_OP_USER_ENDPOINT: ${{ secrets.OIDC_OP_USER_ENDPOINT }}
+      OIDC_CALLBACK_PUBLIC_URI: ${{ secrets.OIDC_CALLBACK_PUBLIC_URI }}
+      AFRICASTALKING_API_KEY: ${{ secrets.AFRICASTALKING_API_KEY }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Docker
-        uses: docker/setup-docker@v3
-
-      - name: Login to Docker Hub
-        uses: docker/login@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build Docker image
+        run: docker build -t django-api .
+
+      - name: Docker Login
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
       - name: Push Docker image
-        run: docker push django-api
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/django-api
