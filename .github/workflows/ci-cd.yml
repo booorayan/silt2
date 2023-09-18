@@ -105,19 +105,19 @@ jobs:
     needs:
       - test
 
-#    env:
-#      SECRET_KEY: ${{ secrets.SECRET_KEY }}
-#      OIDC_RP_SIGN_ALGO: ${{ secrets.OIDC_RP_SIGN_ALGO }}
-#      OIDC_OP_JWKS_ENDPOINT: ${{ secrets.OIDC_OP_JWKS_ENDPOINT }}
-#      OIDC_RP_CLIENT_ID: ${{ secrets.OIDC_RP_CLIENT_ID }}
-#      OIDC_RP_CLIENT_SECRET: ${{ secrets.OIDC_RP_CLIENT_SECRET }}
-#      OIDC_OP_AUTHORIZATION_ENDPOINT: ${{ secrets.OIDC_OP_AUTHORIZATION_ENDPOINT }}
-#      OIDC_OP_TOKEN_ENDPOINT: ${{ secrets.OIDC_OP_TOKEN_ENDPOINT }}
-#      OIDC_OP_USER_ENDPOINT: ${{ secrets.OIDC_OP_USER_ENDPOINT }}
-#      OIDC_CALLBACK_PUBLIC_URI: ${{ secrets.OIDC_CALLBACK_PUBLIC_URI }}
-#      AFRICASTALKING_API_KEY: ${{ secrets.AFRICASTALKING_API_KEY }}
-#      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-#      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+    env:
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      OIDC_RP_SIGN_ALGO: ${{ secrets.OIDC_RP_SIGN_ALGO }}
+      OIDC_OP_JWKS_ENDPOINT: ${{ secrets.OIDC_OP_JWKS_ENDPOINT }}
+      OIDC_RP_CLIENT_ID: ${{ secrets.OIDC_RP_CLIENT_ID }}
+      OIDC_RP_CLIENT_SECRET: ${{ secrets.OIDC_RP_CLIENT_SECRET }}
+      OIDC_OP_AUTHORIZATION_ENDPOINT: ${{ secrets.OIDC_OP_AUTHORIZATION_ENDPOINT }}
+      OIDC_OP_TOKEN_ENDPOINT: ${{ secrets.OIDC_OP_TOKEN_ENDPOINT }}
+      OIDC_OP_USER_ENDPOINT: ${{ secrets.OIDC_OP_USER_ENDPOINT }}
+      OIDC_CALLBACK_PUBLIC_URI: ${{ secrets.OIDC_CALLBACK_PUBLIC_URI }}
+      AFRICASTALKING_API_KEY: ${{ secrets.AFRICASTALKING_API_KEY }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
     steps:
       - name: Checkout code
@@ -176,7 +176,7 @@ jobs:
 
       - name: Run new container
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP 'sudo docker run -d --name demoapi -p 8000:8000 ${DOCKER_USERNAME}/django-api:latest'
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "sudo docker run -d --name demoapi -p 8000:8000 $DOCKER_USERNAME/django-api:latest"
 
 #      - name: Set up Python
 #        uses: actions/setup-python@v4
