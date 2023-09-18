@@ -196,7 +196,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "rm -rf silt2"
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "git clone https://github.com/booorayan/silt2.git"
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cd silt2"
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cp ../.env ."
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cp /home/ubuntu/.env ."
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "docker build -t $DOCKER_USERNAME/django-api:latest ."
 
 #      - name: Build Image
