@@ -116,7 +116,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Build Docker image
-        run: docker build -t django-api .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/django-api .
 
       - name: Docker Login
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
