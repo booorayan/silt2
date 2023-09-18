@@ -17,7 +17,7 @@ class CustomerListCreateView(generics.ListCreateAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     authentication_classes = (SessionAuthentication, OIDCAuthentication)
-    # permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]
 
     # def perform_create(self, serializer):
     #     serializer.save(owner=self.request.user)
@@ -27,13 +27,14 @@ class CustomerDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
     authentication_classes = (SessionAuthentication, OIDCAuthentication)
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticated]
 
 
 class OrderListCreateView(generics.ListCreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     authentication_classes = (SessionAuthentication, OIDCAuthentication)
+    permission_classes = [permissions.IsAuthenticated]
 
     def perform_create(self, serializer):
         order = serializer.save()
@@ -53,8 +54,8 @@ class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     authentication_classes = (SessionAuthentication, OIDCAuthentication)
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, permissions.IsAdminUser]
+    permission_classes = [permissions.IsAuthenticated]
 
 
-def LoginView(request):
+def login(request):
     return render(request, 'api/login.html')
