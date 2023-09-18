@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,18 +21,6 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-#      - name: Load environment variables
-#        uses: dotenv-actions/setup-dotenv@v2
-#        with:
-#          dotenv_path: .env.development
-#        run: echo "Host -> $OIDC_RP_SIGN_ALGO"
-
-#      - name: Load .env.development file
-#        uses: xom9ikk/dotenv@v2
-#        with:
-#          path: ./
-#          mode: development
-
       - name: Run tests
         env:
           SECRET_KEY: ${{ secrets.SECRET_KEY }}
@@ -45,28 +33,31 @@ jobs:
           OIDC_OP_USER_ENDPOINT: ${{ secrets.OIDC_OP_USER_ENDPOINT }}
           OIDC_CALLBACK_PUBLIC_URI: ${{ secrets.OIDC_CALLBACK_PUBLIC_URI }}
           AFRICASTALKING_API_KEY: ${{ secrets.AFRICASTALKING_API_KEY }}
-        run: python manage.py test api.tests
+
+        run: python manage.py test
+
+
+  build:
+    runs-on: ubuntu-latest
+
+    needs:
+      - test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
       - name: Build Docker image
         run: docker build -t django-api .
-#
-#  test:
-#    runs-on: ubuntu-latest
 
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v3
-#
-#      - name: Set up Python
-#        uses: actions/setup-python@v4
-#        with:
-#          python-version: '3.10'
-#
-#      - name: Install dependencies
-#        run: pip install -r requirements.txt
-#
-#      - name: Run tests
-#        run: python manage.py test
 
 #  deploy:
 #    runs-on: ubuntu-latest
