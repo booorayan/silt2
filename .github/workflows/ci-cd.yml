@@ -154,18 +154,18 @@ jobs:
           push: true
           tags: booora/django-api:latest
           build-args: |
-            "SECRET_KEY=${{ secrets.SECRET_KEY }}"
-            "OIDC_RP_SIGN_ALGO=${{ secrets.OIDC_RP_SIGN_ALGO }}"
-            "OIDC_OP_JWKS_ENDPOINT=${{ secrets.OIDC_OP_JWKS_ENDPOINT }}"
-            "OIDC_RP_CLIENT_ID=${{ secrets.OIDC_RP_CLIENT_ID }}"
-            "OIDC_RP_CLIENT_SECRET=${{ secrets.OIDC_RP_CLIENT_SECRET }}"
-            "OIDC_OP_AUTHORIZATION_ENDPOINT=${{ secrets.OIDC_OP_AUTHORIZATION_ENDPOINT }}"
-            "OIDC_OP_TOKEN_ENDPOINT=${{ secrets.OIDC_OP_TOKEN_ENDPOINT }}"
-            "OIDC_OP_USER_ENDPOINT=${{ secrets.OIDC_OP_USER_ENDPOINT }}"
-            "OIDC_CALLBACK_PUBLIC_URI=${{ secrets.OIDC_CALLBACK_PUBLIC_URI }}"
-            "AFRICASTALKING_API_KEY=${{ secrets.AFRICASTALKING_API_KEY }}"
-            "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}"
-            "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}"
+            "SECRET_KEY=$SECRET_KEY"
+            "OIDC_RP_SIGN_ALGO=$OIDC_RP_SIGN_ALGO"
+            "OIDC_OP_JWKS_ENDPOINT=$OIDC_OP_JWKS_ENDPOINT"
+            "OIDC_RP_CLIENT_ID=$OIDC_RP_CLIENT_ID"
+            "OIDC_RP_CLIENT_SECRET=$OIDC_RP_CLIENT_SECRET"
+            "OIDC_OP_AUTHORIZATION_ENDPOINT=$OIDC_OP_AUTHORIZATION_ENDPOINT"
+            "OIDC_OP_TOKEN_ENDPOINT=$OIDC_OP_TOKEN_ENDPOINT"
+            "OIDC_OP_USER_ENDPOINT=$OIDC_OP_USER_ENDPOINT"
+            "OIDC_CALLBACK_PUBLIC_URI=$OIDC_CALLBACK_PUBLIC_URI"
+            "AFRICASTALKING_API_KEY=$AFRICASTALKING_API_KEY"
+            "DOCKER_USERNAME=$DOCKER_USERNAME"
+            "DOCKER_PASSWORD=$DOCKER_PASSWORD"
 
 #      - name: Docker Login
 #        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
@@ -202,14 +202,28 @@ jobs:
           echo "$AWS_PRIVATE_KEY" > key.pem
           chmod 600 key.pem
 
+#      - name: Install dependencies
+#        run: pip install -r requirements.txt
+
+      - name: Clone repo and Build Image
+        run: |
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "git clone https://github.com/booorayan/silt2.git"
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cd silt2"
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cp .env ."
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "docker build -t $DOCKER_USERNAME/django-api:latest ."
+
+#      - name: Build Image
+#        run: |
+#          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "docker build -t $DOCKER_USERNAME/django-api:latest ."
+
       - name: Stop running container
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP 'sudo docker stop demoapi || true'
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP 'sudo docker rm demoapi || true'
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP 'docker stop demoapi || true'
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP 'docker rm demoapi || true'
 
       - name: Run new container
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "sudo docker run -d --name demoapi -p 8000:8000 $DOCKER_USERNAME/django-api:latest"
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "docker run -d --name demoapi -p 8000:8000 $DOCKER_USERNAME/django-api:latest"
 
 #      - name: Set up Python
 #        uses: actions/setup-python@v4
