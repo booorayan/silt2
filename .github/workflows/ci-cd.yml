@@ -131,8 +131,25 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Build Docker image
-        run: docker build -t $DOCKER_USERNAME/django-api .
+#      - name: Build Docker image
+#        run: docker build -t $DOCKER_USERNAME/django-api .
+      - name: Docker Build
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          build-args: |
+            "SECRET_KEY=${{ secrets.SECRET_KEY }}"
+            "OIDC_RP_SIGN_ALGO=${{ secrets.OIDC_RP_SIGN_ALGO }}"
+            "OIDC_OP_JWKS_ENDPOINT=${{ secrets.OIDC_OP_JWKS_ENDPOINT }}"
+            "OIDC_RP_CLIENT_ID=${{ secrets.OIDC_RP_CLIENT_ID }}"
+            "OIDC_RP_CLIENT_SECRET=${{ secrets.OIDC_RP_CLIENT_SECRET }}"
+            "OIDC_OP_AUTHORIZATION_ENDPOINT=${{ secrets.OIDC_OP_AUTHORIZATION_ENDPOINT }}"
+            "OIDC_OP_TOKEN_ENDPOINT=${{ secrets.OIDC_OP_TOKEN_ENDPOINT }}"
+            "OIDC_OP_USER_ENDPOINT=${{ secrets.OIDC_OP_USER_ENDPOINT }}"
+            "OIDC_CALLBACK_PUBLIC_URI=${{ secrets.OIDC_CALLBACK_PUBLIC_URI }}"
+            "AFRICASTALKING_API_KEY=${{ secrets.AFRICASTALKING_API_KEY }}"
+            "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}"
+            "DOCKER_PASSWORD=${{ secrets.DOCKER_PASSWORD }}"
 
       - name: Docker Login
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
