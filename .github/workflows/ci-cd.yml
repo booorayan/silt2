@@ -193,6 +193,7 @@ jobs:
 
       - name: Clone repo and Build Image
         run: |
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "rm -rf silt2"
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "git clone https://github.com/booorayan/silt2.git"
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cd silt2"
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cp ../.env ."
