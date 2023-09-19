@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-import os.path
+import os
 from pathlib import Path
 import environ
 from django.urls import reverse_lazy
@@ -28,7 +28,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -168,14 +168,14 @@ REST_FRAMEWORK = {
 }
 
 
-OIDC_RP_SIGN_ALGO = env('OIDC_RP_SIGN_ALGO')
-OIDC_OP_JWKS_ENDPOINT = env('OIDC_OP_JWKS_ENDPOINT')
-OIDC_RP_CLIENT_ID = env('OIDC_RP_CLIENT_ID')
-OIDC_RP_CLIENT_SECRET = env('OIDC_RP_CLIENT_SECRET')
-OIDC_OP_AUTHORIZATION_ENDPOINT = env('OIDC_OP_AUTHORIZATION_ENDPOINT')
-OIDC_OP_TOKEN_ENDPOINT = env('OIDC_OP_TOKEN_ENDPOINT')
-OIDC_OP_USER_ENDPOINT = env('OIDC_OP_USER_ENDPOINT')
-OIDC_CALLBACK_PUBLIC_URI = env('OIDC_CALLBACK_PUBLIC_URI')
+OIDC_RP_SIGN_ALGO = os.environ.get('OIDC_RP_SIGN_ALGO')
+OIDC_OP_JWKS_ENDPOINT = os.environ.get('OIDC_OP_JWKS_ENDPOINT')
+OIDC_RP_CLIENT_ID = os.environ.get('OIDC_RP_CLIENT_ID')
+OIDC_RP_CLIENT_SECRET = os.environ.get('OIDC_RP_CLIENT_SECRET')
+OIDC_OP_AUTHORIZATION_ENDPOINT = os.environ.get('OIDC_OP_AUTHORIZATION_ENDPOINT')
+OIDC_OP_TOKEN_ENDPOINT = os.environ.get('OIDC_OP_TOKEN_ENDPOINT')
+OIDC_OP_USER_ENDPOINT = os.environ.get('OIDC_OP_USER_ENDPOINT')
+OIDC_CALLBACK_PUBLIC_URI = os.environ.get('OIDC_CALLBACK_PUBLIC_URI')
 
 # LOGIN_URL = reverse_lazy('oidc_authentication_callback')
 
@@ -195,7 +195,7 @@ LOGOUT_REDIRECT_URL = "/"
 
 # africastalking settings
 AFRICASTALKING_USERNAME = 'sandbox'
-AFRICASTALKING_API_KEY = env('AFRICASTALKING_API_KEY')
+AFRICASTALKING_API_KEY = os.environ.get('AFRICASTALKING_API_KEY')
 
 
 africastalking.initialize(AFRICASTALKING_USERNAME, AFRICASTALKING_API_KEY)
