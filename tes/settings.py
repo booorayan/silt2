@@ -167,6 +167,7 @@ REST_FRAMEWORK = {
     ],
 }
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 OIDC_RP_SIGN_ALGO = os.environ.get('OIDC_RP_SIGN_ALGO')
 OIDC_OP_JWKS_ENDPOINT = os.environ.get('OIDC_OP_JWKS_ENDPOINT')
