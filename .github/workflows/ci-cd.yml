@@ -121,7 +121,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cp /home/ubuntu/.env /home/ubuntu/silt2/"
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cd silt2 && python3 -m venv venv"
 #          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cd silt2 && python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt && python manage.py makemigrations && python manage.py migrate && python manage.py runserver"
-#
+
       - name: Run server
         run: |
 #          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cd silt2 && python3 -m venv venv"
