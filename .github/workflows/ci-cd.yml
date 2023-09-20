@@ -119,6 +119,6 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "rm -rf silt2"
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "git clone https://github.com/booorayan/silt2.git"
           ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cp /home/ubuntu/.env /home/ubuntu/silt2/"
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cd silt2 && python3 -m venv venv && pip install -r requirements.txt && python manage.py makemigrations && python manage.py migrate && python manage.py runserver"
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cd silt2 && python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt && python manage.py makemigrations && python manage.py migrate && python manage.py runserver"
           
 
