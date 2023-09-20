@@ -1,6 +1,10 @@
 version: '3.9'
 
 services:
+  redis:
+    container_name: redis
+    image: 'redis:alpine'
+
   db:
     container_name: db
     image: postgres
@@ -8,13 +12,15 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
 
   djangoapp:
     container_name: djangoapp
-#    build: .
-    image: booora/django-api
+    build: .
+#    image: booora/django-api
     command: bash -c "python manage.py makemigrations --no-input && python manage.py migrate --noinput && python manage.py runserver -b 0.0.0.0:8000"
     ports:
       - "8000:8000"
@@ -22,6 +28,7 @@ services:
       - .env
     depends_on:
       - db
+      - redis
 
 volumes:
   pgdata: {}

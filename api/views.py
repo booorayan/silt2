@@ -1,3 +1,4 @@
+import time
 from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import permissions
@@ -5,6 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authentication import SessionAuthentication
 from mozilla_django_oidc.contrib.drf import OIDCAuthentication
+from mozilla_django_oidc.views import OIDCAuthenticationCallbackView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Customer, Order
@@ -55,6 +57,12 @@ class OrderDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = OrderSerializer
     authentication_classes = (SessionAuthentication, OIDCAuthentication)
     permission_classes = [permissions.IsAuthenticated]
+
+
+class MyOIDCCallbackClass(OIDCAuthenticationCallbackView):
+    def get(self, request):
+        time.sleep(1)
+        super().get(request)
 
 
 def login(request):

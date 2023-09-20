@@ -13,8 +13,11 @@ services:
         POSTGRES_DB: keycloak
         POSTGRES_USER: keycloak
         POSTGRES_PASSWORD: password
+      networks:
+        - local
+
   keycloak:
-      image: quay.io/keycloak/keycloak:legacy
+      image:  quay.io/keycloak/keycloak:legacy
       environment:
         DB_VENDOR: POSTGRES
         DB_ADDR: postgres
@@ -26,7 +29,13 @@ services:
         KEYCLOAK_PASSWORD: Pa55w0rd
         # Uncomment the line below if you want to specify JDBC parameters. The parameter below is just an example, and it shouldn't be used in production without knowledge. It is highly recommended that you read the PostgreSQL JDBC driver documentation in order to use it.
         #JDBC_PARAMS: "ssl=true"
+#      command: start --optimized
       ports:
         - "8080:8080"
       depends_on:
         - postgres
+      networks:
+        - local
+
+networks:
+  local:

@@ -55,12 +55,12 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'mozilla_django_oidc.middleware.SessionRefresh',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'mozilla_django_oidc.middleware.SessionRefresh',
 ]
 
 ROOT_URLCONF = 'tes.urls'
@@ -96,12 +96,12 @@ DATABASES = {
 # DATABASES = {
 #     "default": {
 #         "ENGINE": 'django.db.backends.postgresql_psycopg2',
-#         "NAME": "keycloak",
-#         "USER": "keycloak",
-#         "PASSWORD": "password",
-#         "HOST": "127.0.0.1",
-#         "PORT": "5432",
-#         "CONN_MAX_AGE": 60 * 5,
+#         "NAME": os.environ.get('PG_DB', 'postgres'),
+#         "USER": os.environ.get('PG_USER', 'postgres'),
+#         "PASSWORD": os.environ.get('PG_PASSWORD', 'postgres'),
+#         "HOST": os.environ.get('PG_HOST', 'localhost'),
+#         "PORT": os.environ.get('PG_PORT', '5432'),
+#         # "CONN_MAX_AGE": 60 * 5,
 #     }
 #     # "development": {
 #     #     "ENGINE": "django.db.backends.sqlite3",
@@ -168,7 +168,21 @@ REST_FRAMEWORK = {
     ],
 }
 
+
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://redis:6379/',
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient'
+#         },
+#     }
+# }
+
 SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+
+# OIDC_CALLBACK_CLASS = 'api.views.MyOIDCCallbackClass'
+
 
 OIDC_RP_SIGN_ALGO = os.environ.get('OIDC_RP_SIGN_ALGO')
 OIDC_OP_JWKS_ENDPOINT = os.environ.get('OIDC_OP_JWKS_ENDPOINT')
