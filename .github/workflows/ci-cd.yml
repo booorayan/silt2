@@ -39,7 +39,7 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Run tests
-        run: python manage.py test
+        run: coverage run manage.py test
 
   build:
     runs-on: ubuntu-latest
@@ -105,25 +105,26 @@ jobs:
 #          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cp /home/ubuntu/.env /home/ubuntu/silt2/"
 
 
-#      - name: Stop running container
-#        run: |
-#          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP 'docker stop demoapi || true'
-#          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP 'docker rm demoapi || true'
-
-#      - name: Run new container
-#        run: |
-#          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "docker run -d --name demoapi -p 8000:8000 $DOCKER_USERNAME/django-api:latest"
-
-      - name: Clone repo
+      - name: Stop running container
         run: |
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "rm -rf silt2"
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "git clone https://github.com/booorayan/silt2.git"
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cp /home/ubuntu/.env /home/ubuntu/silt2/"
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cd silt2 && python3 -m venv venv"
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP 'docker stop demoapi || true'
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP 'docker rm demoapi || true'
+
+      - name: Run new container
+        run: |
+          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "docker run -d --name demoapi -p 8000:8000 $DOCKER_USERNAME/django-api:latest"
+
+#      - name: Clone repo
+#        run: |
+#          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "rm -rf silt2"
+#          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "git clone https://github.com/booorayan/silt2.git"
+#          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cp /home/ubuntu/.env /home/ubuntu/silt2/"
+#          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cd silt2 && python3 -m venv venv"
 #          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cd silt2 && python3 -m venv venv && . venv/bin/activate && pip install -r requirements.txt && python manage.py makemigrations && python manage.py migrate && python manage.py runserver"
 
-      - name: Run server
-        run: |
+
+#      - name: Run server
+#        run: |
 #          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cd silt2 && python3 -m venv venv"
-          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cd silt2 && . venv/bin/activate && pip install -r requirements.txt && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+#          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "cd silt2 && . venv/bin/activate && pip install -r requirements.txt && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
 #          ssh -o StrictHostKeyChecking=no -i key.pem ubuntu@$EC2_IP "python manage.py makemigrations && python manage.py migrate && python manage.py runserver"

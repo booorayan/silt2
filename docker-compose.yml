@@ -20,7 +20,6 @@ services:
   djangoapp:
     container_name: djangoapp
     build: .
-#    image: booora/django-api
     command: bash -c "python manage.py makemigrations --no-input && python manage.py migrate --noinput && python manage.py runserver -b 0.0.0.0:8000"
     ports:
       - "8000:8000"

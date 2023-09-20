@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'api',
     'phonenumber_field',
+    'django_nose',
 ]
 
 MIDDLEWARE = [
@@ -219,3 +220,12 @@ africastalking.initialize(AFRICASTALKING_USERNAME, AFRICASTALKING_API_KEY)
 
 # Set your sender ID (the alphanumeric string that appears as the sender of the SMS)
 AFRICASTALKING_SENDER_ID = 'booora'
+
+# Use nose to run all tests
+# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+# NOSE_ARGS = [
+#     '--cover-erase',
+#     '--with-coverage',
+#     '--cover-package=api',
+# ]
