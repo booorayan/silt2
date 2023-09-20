@@ -93,11 +93,17 @@ Unit tests are defined in the app's tests.py file. The tests cover three cases:
 - when an order is created
 - whether an sms alert is sent when an order is added
 
+The `coverage` library was used for coverage checking during testing. To install it run `pip install coverage`
+
+Run tests with coverage checking using the following command: `coverage run manage.py test`
+
 The CI/CD pipeline is implemented using Github Actions. The pipeline file is located in the .github/workflows directory
 
 The pipeline has three jobs: `test, build and deploy`
 
-The `test` job runs the unit tests. The `build` job builds the docker image and pushes it to Docker Hub. The `deploy` job deploys the docker image on an EC2 instance provisioned on AWS
+The `test` job runs the unit tests. The `build` job builds the docker image and pushes it to Docker Hub. The `deploy` job deploys the docker image on an EC2 instance provisioned on AWS.
+
+The EC2 instance ip is 44.202.134.252. Test the endpoint: `curl -v http://44.202.134.252:8000/api/customers/`. You should get a `403 Forbidden` response
 
 ### 6. Test
 To test the application locally, ensure you have the following:
